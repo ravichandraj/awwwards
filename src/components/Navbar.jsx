@@ -4,7 +4,7 @@ import {TiLocationArrow} from "react-icons/ti";
 import {useWindowScroll} from "react-use";
 import gsap from "gsap";
 
-const navItems = ['Nexus', 'Vault', 'Prologue', 'About', 'Contact'];
+const navItems = ['Hero_Section', 'Story', 'Features', 'About', 'Contact'];
 
 const Navbar = () => {
 
@@ -16,6 +16,23 @@ const Navbar = () => {
     const audioElementRef = useRef(null);
 
     const {y: currentScrollY} = useWindowScroll();
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if (!isIndicatorActive) {
+                setIsIndicatorActive(true);
+            }
+        }, 5000); // Start after 5 seconds
+
+        const deactivateTimeoutId = setTimeout(() => {
+            setIsIndicatorActive(isAudioPlaying);
+        }, 7000); // Deactivate after 2 seconds
+
+        return () => {
+            clearTimeout(timeoutId);
+            clearTimeout(deactivateTimeoutId);
+        };
+    }, []);
 
     useEffect(() => {
         if(currentScrollY === 0) {
@@ -49,7 +66,7 @@ const Navbar = () => {
 
     const toggleAudioIndicator = () => {
         setIsAudioPlaying(!isAudioPlaying);
-        setIsIndicatorActive(!isIndicatorActive);
+        setIsIndicatorActive(!isAudioPlaying);
     }
 
 
